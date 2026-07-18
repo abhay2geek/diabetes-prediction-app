@@ -31,18 +31,6 @@ The application is built using **Python**, **Scikit-learn**, and **Streamlit**. 
 
 ---
 
-## 📷 Application Preview
-
-> **Add a screenshot here after deployment.**
-
-Create a folder named **images** and save a screenshot as **home.png**.
-
-```markdown
-![Application Screenshot](images/home.png)
-```
-
----
-
 ## 🛠️ Technologies Used
 
 - Python
@@ -110,7 +98,7 @@ Diabetes-Prediction/
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/Diabetes-Prediction.git
+git clone https://github.com/abhay2geek/diabetes-prediction-app.git
 ```
 
 ### Go to the Project Folder
@@ -206,15 +194,9 @@ Confidence : 81%
 
 ## 🌐 Live Demo
 
-> Add your deployed Streamlit link here.
+🔗 **Try the application here**
 
-Example:
-
-```
-https://your-app-name.streamlit.app
-```
-
----
+https://diabetes-prediction-appgit-zhvqlndx83ptrnhxtptman.streamlit.app
 
 ## 👨‍💻 Author
 
