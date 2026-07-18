@@ -20,7 +20,7 @@ width:100%;background:#00897b;color:white;border-radius:10px;height:3em;font-wei
 </style>
 """, unsafe_allow_html=True)
 
-st.markdown("<h1 style='text-align:center;color:#00695c;'>🩺 AI Diabetes Prediction System</h1>",unsafe_allow_html=True)
+st.title("🩺 AI Diabetes Prediction System")
 st.caption("Early Screening Tool | Educational Purpose Only")
 st.caption("Fill in the patient's clinical information.")
 st.divider()
