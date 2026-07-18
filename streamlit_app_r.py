@@ -1,65 +1,166 @@
 import streamlit as st
 from predict import predict_diabetes
 
+# -------------------- Page Configuration --------------------
+
 st.set_page_config(
     page_title="AI Diabetes Prediction System",
     page_icon="🩺",
-    layout="wide"
+    layout="centered"
 )
+
+# -------------------- CSS --------------------
 
 st.markdown("""
 <style>
+
 .stApp{
-background:#f5f9fc;
+    background:#f4f8fb;
 }
-.block-container{padding-top:2rem;}
-.card{background:white;padding:20px;border-radius:16px;box-shadow:0 4px 15px rgba(0,0,0,.12);}
-div.stButton>button{
-width:100%;background:#00897b;color:white;border-radius:10px;height:3em;font-weight:bold;
+
+.block-container{
+    max-width:700px;
+    padding-top:2rem;
+    padding-bottom:2rem;
 }
+
+div.stButton > button{
+    width:100%;
+    height:3.2em;
+    background:#00897B;
+    color:white;
+    border:none;
+    border-radius:10px;
+    font-size:18px;
+    font-weight:600;
+}
+
+div.stButton > button:hover{
+    background:#00695C;
+}
+
+.result{
+    padding:18px;
+    border-radius:12px;
+    background:white;
+    box-shadow:0px 2px 10px rgba(0,0,0,.15);
+}
+
 </style>
 """, unsafe_allow_html=True)
 
+# -------------------- Header --------------------
+
 st.title("🩺 AI Diabetes Prediction System")
-st.caption("Early Screening Tool | Educational Purpose Only")
-st.caption("Fill in the patient's clinical information.")
+
+st.markdown(
+"""
+Early Screening Tool • Educational Purpose Only
+"""
+)
+
+st.write("Fill in the patient's clinical information below.")
+
 st.divider()
 
-c1,c2=st.columns(2)
-with c1:
-    preg=st.number_input("Pregnancies",0,step=1)
-    glucose=st.number_input("Glucose Level",0)
-    bp=st.number_input("Blood Pressure",0)
-    skin=st.number_input("Skin Thickness",0)
-with c2:
-    insulin=st.number_input("Insulin",0)
-    bmi=st.number_input("BMI",0.0,format="%.1f")
-    dpf=st.number_input("Diabetes Pedigree Function",0.0,format="%.3f")
-    age=st.number_input("Age",1)
+# -------------------- Sidebar --------------------
 
-st.sidebar.header("About")
-st.sidebar.info("This application predicts diabetes risk using a Machine Learning model.")
+st.sidebar.title("About")
+
+st.sidebar.info("""
+This application predicts diabetes risk using a Random Forest Machine Learning model.
+
+⚠ This is not a medical diagnosis.
+""")
+
+# -------------------- Inputs --------------------
+
+preg = st.number_input("Pregnancies", min_value=0, step=1)
+
+glucose = st.number_input("Glucose Level", min_value=0)
+
+bp = st.number_input("Blood Pressure", min_value=0)
+
+skin = st.number_input("Skin Thickness", min_value=0)
+
+insulin = st.number_input("Insulin", min_value=0)
+
+bmi = st.number_input("BMI", min_value=0.0, format="%.1f")
+
+dpf = st.number_input(
+    "Diabetes Pedigree Function",
+    min_value=0.0,
+    format="%.3f"
+)
+
+age = st.number_input("Age", min_value=1)
+
+st.write("")
+
+# -------------------- Prediction --------------------
 
 if st.button("🩺 Predict Diabetes"):
-    prediction, probability=predict_diabetes([preg,glucose,bp,skin,insulin,bmi,dpf,age])
+
+    prediction, probability = predict_diabetes(
+        [preg, glucose, bp, skin, insulin, bmi, dpf, age]
+    )
+
+    confidence = probability * 100
+
+    st.divider()
+
     st.subheader("Prediction Result")
+
     st.progress(float(probability))
-    if prediction==1:
-        st.markdown(f"<div class='card'><h3 style='color:#c62828;'>⚠ High Risk of Diabetes</h3><p>Confidence: <b>{probability*100:.2f}%</b></p></div>",unsafe_allow_html=True)
-        st.warning("Please consult a healthcare professional.")
+
+    if prediction == 1:
+
+        st.error("⚠ High Risk of Diabetes")
+
+        st.markdown(f"""
+<div class="result">
+
+<b>Confidence:</b> {confidence:.2f}%<br><br>
+
+Please consult a healthcare professional.
+
+</div>
+""", unsafe_allow_html=True)
+
     else:
-        st.markdown(f"<div class='card'><h3 style='color:#2e7d32;'>✅ Low Diabetes Risk</h3><p>Confidence: <b>{probability*100:.2f}%</b></p></div>",unsafe_allow_html=True)
-        st.success("Maintain a healthy lifestyle.")
+
+        st.success("✅ Low Risk of Diabetes")
+
+        st.markdown(f"""
+<div class="result">
+
+<b>Confidence:</b> {confidence:.2f}%<br><br>
+
+Maintain a healthy lifestyle.
+
+</div>
+""", unsafe_allow_html=True)
+
+# -------------------- Health Tips --------------------
+
 st.divider()
 
 st.subheader("💡 Health Tips")
-st.write("• Exercise at least 30 minutes daily.")
-st.write("• Avoid sugary drinks.")
-st.write("• Eat fresh fruits and vegetables.")
-st.write("• Drink enough water.")
-st.write("• Get regular health checkups.")
+
+tips = [
+    "🏃 Exercise at least 30 minutes daily.",
+    "🥗 Eat a balanced diet.",
+    "💧 Drink enough water.",
+    "🚫 Reduce sugary drinks.",
+    "⚖ Maintain a healthy weight.",
+    "🩺 Get regular health checkups."
+]
+
+for tip in tips:
+    st.write(tip)
 
 st.divider()
+
 st.caption(
-    "Disclaimer: This tool is for educational purposes only and does not replace professional medical advice."
+    "Disclaimer: This application is intended for educational purposes only and should not replace professional medical advice."
 )
